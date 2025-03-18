@@ -4,5 +4,5 @@ use run_utils::args::Args;
 fn main() {
     let args = Args::build();
 
-    load_from_file(&args.file)
+    load_from_file(&args.file);
 }

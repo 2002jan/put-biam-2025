@@ -1,0 +1,2 @@
+[workspace]
+members = ["run-utils", "app", "qap-algos", "qap-utils"]
