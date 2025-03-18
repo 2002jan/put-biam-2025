@@ -2,8 +2,9 @@ use std::fs::File;
 use std::io::{BufRead, BufReader, Lines};
 use std::path::Path;
 use crate::cost_matrix::CostMatrix;
+use crate::problem::QapProblem;
 
-pub fn load_from_file(path: &String) {
+pub fn load_from_file(path: &String) -> QapProblem {
     let path = Path::new(path);
 
     if !path.exists() || !path.is_file() {
@@ -21,26 +22,21 @@ pub fn load_from_file(path: &String) {
 
     // println!("Problem size: {problem_size}");
 
-    let mut matrix1: Vec<Vec<usize>> = Vec::with_capacity(problem_size);
-    fill_matrix(&mut lines, problem_size, &mut matrix1);
-    assert_eq!(matrix1.len(), problem_size);
-    assert_eq!(matrix1.iter().map(|x| x.len()).sum::<usize>(), problem_size * problem_size);
+    let mut distance_matrix = CostMatrix::new(problem_size);
+    fill_matrix(&mut lines, problem_size, &mut distance_matrix);
 
-    let mut matrix2: Vec<Vec<usize>> = Vec::with_capacity(problem_size);
-    fill_matrix(&mut lines, problem_size, &mut matrix2);
-    assert_eq!(matrix2.len(), problem_size);
-    assert_eq!(matrix2.iter().map(|x| x.len()).sum::<usize>(), problem_size * problem_size);
+    let mut flow_matrix = CostMatrix::new(problem_size);
+    fill_matrix(&mut lines, problem_size, &mut flow_matrix);
 
-    let mut cost_matrix = CostMatrix::new(problem_size);
-
-    for i in 0..problem_size {
-        for j in 0..problem_size {
-            cost_matrix.set(i, j, matrix1[i][j] * matrix2[i][j])
-        }
+    QapProblem {
+        distance_matrix,
+        flow_matrix,
+        problem_size
     }
 }
 
-fn fill_matrix(lines: &mut Lines<BufReader<File>>, problem_size: usize, output: &mut Vec<Vec<usize>>) {
+fn fill_matrix(lines: &mut Lines<BufReader<File>>, problem_size: usize, output: &mut CostMatrix) {
+    let mut matrix: Vec<Vec<usize>> = Vec::with_capacity(problem_size);
     let mut numbers: Vec<usize> = Vec::with_capacity(problem_size);
 
     while let Some(line) = lines.next() {
@@ -75,14 +71,20 @@ fn fill_matrix(lines: &mut Lines<BufReader<File>>, problem_size: usize, output: 
         }
 
         if numbers.len() == problem_size {
-            output.push(numbers);
+            matrix.push(numbers);
             numbers = Vec::with_capacity(problem_size);
 
-            if output.len() == problem_size {
+            if matrix.len() == problem_size {
                 break;
             }
         }
     }
 
-    assert_eq!(output.len(), problem_size)
+    assert_eq!(matrix.len(), problem_size);
+
+    for i in 0..problem_size {
+        for j in 0..problem_size {
+            output.set(j, i, matrix[i][j])
+        }
+    }
 }
