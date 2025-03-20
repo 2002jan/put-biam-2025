@@ -31,7 +31,7 @@ pub fn load_from_file(path: &String) -> QapProblem {
     QapProblem {
         distance_matrix,
         flow_matrix,
-        problem_size
+        size: problem_size
     }
 }
 

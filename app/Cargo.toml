@@ -9,3 +9,5 @@ default-run = "app"
 [dependencies]
 run-utils = { path = "../run-utils" }
 qap-utils = { path = "../qap-utils" }
+qap-algos = {path = "../qap-algos"}
+rand = "0.9.0"
