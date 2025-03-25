@@ -5,3 +5,9 @@ pub struct QapProblem {
     pub flow_matrix: CostMatrix,
     pub size: usize
 }
+
+pub struct BestSolution {
+    pub size: usize,
+    pub best_score: i32,
+    pub solution: Vec<usize>
+}
