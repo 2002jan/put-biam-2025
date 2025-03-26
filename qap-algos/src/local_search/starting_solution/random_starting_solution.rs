@@ -6,7 +6,7 @@ use rand::rng;
 pub struct RandomStartingSolution;
 
 impl StartingSolution for RandomStartingSolution {
-    fn get_string_solution(problem: &QapProblem) -> Vec<usize> {
+    fn get_starting_solution(problem: &QapProblem) -> Vec<usize> {
         let mut nodes: Vec<usize> = (0..problem.size).collect::<Vec<usize>>();
         nodes.shuffle(&mut rng());
 

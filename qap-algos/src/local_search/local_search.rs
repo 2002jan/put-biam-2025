@@ -18,7 +18,7 @@ impl<
     SS: StartingSolution
 > TspAlgorithm for LocalSearch<T, SS> {
     fn run(problem: &QapProblem) -> Vec<usize> {
-        let staring_solution = SS::get_string_solution(problem);
+        let staring_solution = SS::get_starting_solution(problem);
 
         T::run(problem, staring_solution)
     }
