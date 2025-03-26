@@ -1,5 +1,6 @@
 pub mod local_search;
 pub mod test_algorithm;
+pub mod random_algos;
 
 use qap_utils::problem::QapProblem;
 
