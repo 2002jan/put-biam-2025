@@ -51,24 +51,26 @@ pub fn test_qap_algorithm<Algorithm: TspAlgorithm>(problem: &QapProblem, optimum
         aggregated_cost += cost;
     }
 
-    if let (Some(path), Some(recorder)) = (output_path, recorder) {
-        let output_path = path.join(format!("{}_output.json", Algorithm::snaked_name()));
-        fs::write(output_path, recorder.to_json()).expect("Could not save output to json");
-    }
-
     let duration = start.elapsed();
 
     let aggregated_cost = aggregated_cost as f32 / RUNS as f32;
     let aggregated_cost = aggregated_cost.round() as i32;
 
+    let duration_micros = duration.as_micros();
+    let duration_per_run = duration_micros / RUNS as u128;
+
     if verbose {
         println!("Results for {}\nMin cost: {}\nMax cost: {}\nAverage cost: {}\n", Algorithm::name(), min_cost, max_cost, aggregated_cost);
 
-        let duration_micros = duration.as_micros();
-        let duration_per_run = duration_micros / (RUNS as u128);
-
         println!("Time took for {} runs: {:.8}s, time per run: {}μs\n", RUNS, duration.as_secs_f64(), duration_per_run);
         println!("Best solution:\n{:?}\n", min_solution);
+    }
+
+    if let (Some(path), Some(mut recorder)) = (output_path, recorder) {
+        recorder.avg_runtime = Some(duration_per_run);
+
+        let output_path = path.join(format!("{}_output.json", Algorithm::snaked_name()));
+        fs::write(output_path, recorder.to_json()).expect("Could not save output to json");
     }
 
     (min_cost, max_cost, aggregated_cost)

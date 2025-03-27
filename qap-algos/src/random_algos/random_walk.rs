@@ -14,7 +14,7 @@ pub struct RandomWalk<
     ss: PhantomData<SS>,
 }
 
-const TIME_LIMIT: u128 = 50;
+const TIME_LIMIT: u128 = 10;
 
 fn generate_distinct_pair(n: usize) -> (usize, usize) {
     let mut rng = rand::rng();

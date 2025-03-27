@@ -7,7 +7,7 @@ use crate::TspAlgorithm;
 
 pub struct RandomSearch;
 
-const TIME_LIMIT: u128 = 50;
+const TIME_LIMIT: u128 = 10;
 
 impl TspAlgorithm for RandomSearch {
     fn run(problem: &QapProblem, mut recorder: Option<&mut AlgorithmRunStatsRecorder>) -> Vec<usize> {
