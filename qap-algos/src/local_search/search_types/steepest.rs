@@ -1,3 +1,5 @@
+use qap_utils::algorithm_stats_recorder::AlgorithmRunStatsRecorder;
+use qap_utils::evaluate_solution::evaluate_solution;
 use qap_utils::problem::QapProblem;
 use crate::local_search::neighbourhoods::{LocalSearchNeighbourhood, Move};
 use crate::local_search::search_types::LocalSearchType;
@@ -20,8 +22,13 @@ impl LocalSearchType for SteepestLocalSearch {
         }
     }
 
-    fn run(problem: &QapProblem, starting_solution: Vec<usize>) -> Vec<usize> {
+    fn run(problem: &QapProblem, starting_solution: Vec<usize>, mut recorder: Option<&mut AlgorithmRunStatsRecorder>) -> Vec<usize> {
         let mut current_solution = starting_solution;
+        let mut current_score = evaluate_solution(&current_solution, problem);
+
+        if let Some(rec) = &mut recorder {
+            rec.record_iteration(current_score)
+        }
 
         let mut neighbourhood_iterator = Self::new(problem);
 
@@ -41,7 +48,12 @@ impl LocalSearchType for SteepestLocalSearch {
             }
 
             if let Some(mov) = bets_move {
+                current_score += LocalSearchNeighbourhood::evaluate_move(problem, &mov, &current_solution);
                 LocalSearchNeighbourhood::apply_move(&mov, &mut current_solution);
+
+                if let Some(rec) = &mut recorder {
+                    rec.record_iteration(current_score)
+                }
             } else {
                 break;
             }

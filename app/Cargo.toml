@@ -11,3 +11,4 @@ run-utils = { path = "../run-utils" }
 qap-utils = { path = "../qap-utils" }
 qap-algos = {path = "../qap-algos"}
 rand = "0.9.0"
+chrono = "0.4.40"

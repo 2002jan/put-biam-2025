@@ -8,7 +8,10 @@ pub struct Args {
 
     /// Best solution file path
     #[arg(short, long)]
-    pub solution_file: Option<String>
+    pub solution_file: Option<String>,
+
+    #[arg(short, long)]
+    pub outputs_folder: Option<String>,
 }
 
 impl Args {

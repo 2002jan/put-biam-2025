@@ -1,4 +1,5 @@
 use std::marker::PhantomData;
+use qap_utils::algorithm_stats_recorder::AlgorithmRunStatsRecorder;
 use qap_utils::problem::QapProblem;
 use crate::local_search::search_types::LocalSearchType;
 use crate::local_search::starting_solution::StartingSolution;
@@ -17,10 +18,10 @@ impl<
     T: LocalSearchType,
     SS: StartingSolution
 > TspAlgorithm for LocalSearch<T, SS> {
-    fn run(problem: &QapProblem) -> Vec<usize> {
+    fn run(problem: &QapProblem, recorder: Option<&mut AlgorithmRunStatsRecorder>) -> Vec<usize> {
         let staring_solution = SS::get_starting_solution(problem);
 
-        T::run(problem, staring_solution)
+        T::run(problem, staring_solution, recorder)
     }
 
     fn name() -> String {

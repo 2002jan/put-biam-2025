@@ -1,11 +1,14 @@
+use std::fs;
+use std::path::PathBuf;
 use std::time::Instant;
+use qap_utils::algorithm_stats_recorder::{AlgorithmRunStatsRecorder, AlgorithmStatsRecorder};
 use qap_utils::evaluate_solution::evaluate_solution;
-use qap_utils::problem::QapProblem;
+use qap_utils::problem::{BestSolution, QapProblem};
 use crate::TspAlgorithm;
 
 const RUNS: i32 = 200;
 
-pub fn test_qap_algorithm<Algorithm: TspAlgorithm>(problem: &QapProblem, verbose: bool) -> (i32, i32, i32) {
+pub fn test_qap_algorithm<Algorithm: TspAlgorithm>(problem: &QapProblem, optimum: &BestSolution, output_path: &Option<PathBuf>, verbose: bool) -> (i32, i32, i32) {
     let mut min_cost = i32::MAX;
     let mut min_solution = vec![0];
     let mut max_cost = 0;
@@ -14,8 +17,25 @@ pub fn test_qap_algorithm<Algorithm: TspAlgorithm>(problem: &QapProblem, verbose
 
     let start = Instant::now();
 
+    let mut recorder: Option<AlgorithmStatsRecorder> = if output_path.is_some() {
+        Some(AlgorithmStatsRecorder::new(optimum.best_score))
+    } else {
+        None
+    };
+
+
     for _ in 0..RUNS {
-        let solution = Algorithm::run(problem);
+        let solution = if let Some(recorder) = &mut recorder {
+            let mut run_recorder = AlgorithmRunStatsRecorder::new();
+            let solution = Algorithm::run(problem, Some(&mut run_recorder));
+            recorder.add_run(run_recorder);
+            solution
+        } else {
+
+            Algorithm::run(problem, None)
+        };
+
+
         let cost = evaluate_solution(&solution, problem);
 
         if min_cost > cost {
@@ -29,6 +49,11 @@ pub fn test_qap_algorithm<Algorithm: TspAlgorithm>(problem: &QapProblem, verbose
         }
 
         aggregated_cost += cost;
+    }
+
+    if let (Some(path), Some(recorder)) = (output_path, recorder) {
+        let output_path = path.join(format!("{}_output.json", Algorithm::snaked_name()));
+        fs::write(output_path, recorder.to_json()).expect("Could not save output to json");
     }
 
     let duration = start.elapsed();
