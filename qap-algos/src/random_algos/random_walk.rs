@@ -38,7 +38,8 @@ impl<
         let mut current_score = evaluate_solution(&current_solution, problem);
 
         if let Some(rec) = &mut recorder {
-            rec.record_iteration(current_score)
+            rec.record_iteration(current_score);
+            rec.record_evaluation();
         }
 
         let start = Instant::now();
@@ -64,7 +65,8 @@ impl<
             }
 
             if let Some(rec) = &mut recorder {
-                rec.record_iteration(current_score)
+                rec.record_iteration(current_score);
+                rec.record_partial_evaluation();
             }
         }
 

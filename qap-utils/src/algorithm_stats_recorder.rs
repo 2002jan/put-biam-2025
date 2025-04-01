@@ -14,6 +14,8 @@ pub struct AlgorithmStatsRecorder {
 pub struct AlgorithmRunStatsRecorder {
     iterations: i32,
     scores: LinkedList<i32>,
+    evaluations: i32,
+    partial_evaluations: i32,
     final_score: i32,
 }
 
@@ -58,6 +60,8 @@ impl AlgorithmRunStatsRecorder {
         Self {
             iterations: 0,
             scores: LinkedList::new(),
+            evaluations: 0,
+            partial_evaluations: 0,
             final_score: i32::MAX,
         }
     }
@@ -69,5 +73,14 @@ impl AlgorithmRunStatsRecorder {
         if self.final_score > score {
             self.final_score = score
         }
+    }
+
+    pub fn record_evaluation(&mut self) {
+        self.evaluations += 1;
+    }
+
+    pub fn record_partial_evaluation(&mut self) {
+        self.evaluations += 1;
+        self.partial_evaluations += 1;
     }
 }

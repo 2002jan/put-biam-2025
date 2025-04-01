@@ -42,7 +42,8 @@ impl LocalSearchType for GreedyLocalSearch {
         let mut current_score = evaluate_solution(&current_solution, problem);
 
         if let Some(rec) = &mut recorder {
-            rec.record_iteration(current_score)
+            rec.record_iteration(current_score);
+            rec.record_evaluation();
         }
 
         let mut neighbourhood_iterator = Self::new(problem);
@@ -55,12 +56,16 @@ impl LocalSearchType for GreedyLocalSearch {
             while let Some(mov) = neighbourhood_iterator.next() {
                 let change = LocalSearchNeighbourhood::evaluate_move(problem, &mov, &current_solution);
 
+                if let Some(rec) = &mut recorder {
+                    rec.record_partial_evaluation();
+                }
+
                 if change < 0 {
-                    current_score += LocalSearchNeighbourhood::evaluate_move(problem, &mov, &current_solution);
+                    current_score += change;
                     LocalSearchNeighbourhood::apply_move(&mov, &mut current_solution);
 
                     if let Some(rec) = &mut recorder {
-                        rec.record_iteration(current_score)
+                        rec.record_iteration(current_score);
                     }
 
                     found_better = true;

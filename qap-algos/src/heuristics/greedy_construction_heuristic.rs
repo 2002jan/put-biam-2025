@@ -49,7 +49,8 @@ impl TspAlgorithm for GreedyConstructionHeuristic {
 
         if let Some(rec) = &mut recorder {
             let current_score = evaluate_solution(&solution, problem);
-            rec.record_iteration(current_score)
+            rec.record_iteration(current_score);
+            rec.record_evaluation();
         }
 
         solution

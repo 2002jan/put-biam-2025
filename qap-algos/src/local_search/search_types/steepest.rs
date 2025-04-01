@@ -27,7 +27,8 @@ impl LocalSearchType for SteepestLocalSearch {
         let mut current_score = evaluate_solution(&current_solution, problem);
 
         if let Some(rec) = &mut recorder {
-            rec.record_iteration(current_score)
+            rec.record_iteration(current_score);
+            rec.record_evaluation();
         }
 
         let mut neighbourhood_iterator = Self::new(problem);
@@ -41,6 +42,10 @@ impl LocalSearchType for SteepestLocalSearch {
             while let Some(mov) = neighbourhood_iterator.next() {
                 let change = LocalSearchNeighbourhood::evaluate_move(problem, &mov, &current_solution);
 
+                if let Some(rec) = &mut recorder {
+                    rec.record_partial_evaluation();
+                }
+
                 if change < best_change {
                     best_change = change;
                     bets_move = Some(mov);
@@ -48,11 +53,11 @@ impl LocalSearchType for SteepestLocalSearch {
             }
 
             if let Some(mov) = bets_move {
-                current_score += LocalSearchNeighbourhood::evaluate_move(problem, &mov, &current_solution);
+                current_score += best_change;
                 LocalSearchNeighbourhood::apply_move(&mov, &mut current_solution);
 
                 if let Some(rec) = &mut recorder {
-                    rec.record_iteration(current_score)
+                    rec.record_iteration(current_score);
                 }
             } else {
                 break;
