@@ -31,7 +31,6 @@ pub fn test_qap_algorithm<Algorithm: TspAlgorithm>(problem: &QapProblem, optimum
             recorder.add_run(run_recorder);
             solution
         } else {
-
             Algorithm::run(problem, None)
         };
 
@@ -60,7 +59,8 @@ pub fn test_qap_algorithm<Algorithm: TspAlgorithm>(problem: &QapProblem, optimum
     let duration_per_run = duration_micros / RUNS as u128;
 
     if verbose {
-        println!("Results for {}\nMin cost: {}\nMax cost: {}\nAverage cost: {}\n", Algorithm::name(), min_cost, max_cost, aggregated_cost);
+        println!("Results for {}\nMin cost: {}({})\nMax cost: {}({})\nAverage cost: {}({})\n", Algorithm::name(), min_cost, min_cost as f32 / optimum.best_score as f32, max_cost, max_cost as f32 / optimum.best_score as f32, aggregated_cost, aggregated_cost as f32 / optimum.best_score as f32);
+        println!("Optimum cost: {}\n", optimum.best_score);
 
         println!("Time took for {} runs: {:.8}s, time per run: {}μs\n", RUNS, duration.as_secs_f64(), duration_per_run);
         println!("Best solution:\n{:?}\n", min_solution);

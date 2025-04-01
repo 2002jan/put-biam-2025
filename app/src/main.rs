@@ -1,5 +1,6 @@
 use std::fs::create_dir_all;
 use std::path::{Path, PathBuf};
+use qap_algos::heuristics::greedy_construction_heuristic::GreedyConstructionHeuristic;
 use qap_algos::local_search::local_search::LocalSearch;
 use qap_algos::local_search::search_types::greedy::GreedyLocalSearch;
 use qap_algos::local_search::search_types::steepest::SteepestLocalSearch;
@@ -42,4 +43,5 @@ fn main() {
     test_qap_algorithm::<LocalSearch<SteepestLocalSearch, RandomStartingSolution>>(&problem, &best_solution, &output_path, true);
     test_qap_algorithm::<RandomWalk<RandomStartingSolution>>(&problem, &best_solution, &output_path, true);
     test_qap_algorithm::<RandomSearch>(&problem, &best_solution, &output_path, true);
+    test_qap_algorithm::<GreedyConstructionHeuristic>(&problem, &best_solution, &output_path, true);
 }
