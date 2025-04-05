@@ -14,12 +14,14 @@ class AlgorithmRunStats:
         self.partial_evaluations = partial_evaluations
 
 class AlgorithmStats:
-    def __init__(self, runs: list[dict], best_run: dict, worst_run: dict, optimum: int, avg_runtime: int):
+    def __init__(self, runs: list[dict], best_run: dict, worst_run: dict, optimum: int, avg_runtime: int, similarities_best: list, similarities_avg: list):
         self.runs = [AlgorithmRunStats(**run) for run in runs]
         self.best_run = AlgorithmRunStats(**best_run)
         self.worst_run = AlgorithmRunStats(**worst_run)
         self.optimum = optimum
         self.avg_runtime = avg_runtime
+        self.similarities_best = similarities_best
+        self.similarities_avg = similarities_avg
 
 
 
