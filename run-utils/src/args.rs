@@ -12,6 +12,10 @@ pub struct Args {
 
     #[arg(short, long)]
     pub outputs_folder: Option<String>,
+
+    /// Whether to also calculate similarity scores
+    #[arg(long = "ss")]
+    pub calculate_similarity: bool
 }
 
 impl Args {

@@ -1,20 +1,23 @@
+use std::collections::LinkedList;
 use std::fs;
 use std::path::PathBuf;
 use std::time::Instant;
 use qap_utils::algorithm_stats_recorder::{AlgorithmRunStatsRecorder, AlgorithmStatsRecorder};
 use qap_utils::evaluate_solution::evaluate_solution;
+use qap_utils::get_similarity::{check_similarity_avg, check_similarity_best};
 use qap_utils::problem::{BestSolution, QapProblem};
 use crate::TspAlgorithm;
 
 const RUNS: i32 = 200;
 
-pub fn test_qap_algorithm<Algorithm: TspAlgorithm>(problem: &QapProblem, optimum: &BestSolution, output_path: &Option<PathBuf>, verbose: bool) -> (i32, i32, i32) {
+pub fn test_qap_algorithm<Algorithm: TspAlgorithm>(problem: &QapProblem, optimum: &BestSolution, output_path: &Option<PathBuf>, verbose: bool, calculate_similarity: bool) -> (i32, i32, i32) {
     let mut min_cost = i32::MAX;
     let mut min_solution = vec![0];
     let mut max_cost = 0;
     let mut _max_solution = vec![0];
     let mut aggregated_cost = 0;
 
+    let mut all_solutions: LinkedList<Vec<usize>>= LinkedList::new();
     let start = Instant::now();
 
     let mut recorder: Option<AlgorithmStatsRecorder> = if output_path.is_some() {
@@ -34,7 +37,6 @@ pub fn test_qap_algorithm<Algorithm: TspAlgorithm>(problem: &QapProblem, optimum
             Algorithm::run(problem, None)
         };
 
-
         let cost = evaluate_solution(&solution, problem);
 
         if min_cost > cost {
@@ -48,6 +50,8 @@ pub fn test_qap_algorithm<Algorithm: TspAlgorithm>(problem: &QapProblem, optimum
         }
 
         aggregated_cost += cost;
+
+        all_solutions.push_back(solution);
     }
 
     let duration = start.elapsed();
@@ -67,6 +71,11 @@ pub fn test_qap_algorithm<Algorithm: TspAlgorithm>(problem: &QapProblem, optimum
     }
 
     if let (Some(path), Some(mut recorder)) = (output_path, recorder) {
+        if calculate_similarity {
+            recorder.similarities_best = Some(check_similarity_best(&all_solutions, optimum, problem));
+            recorder.similarities_avg = Some(check_similarity_avg(&all_solutions, problem));
+        }
+
         recorder.avg_runtime = Some(duration_per_run);
 
         let output_path = path.join(format!("{}_output.json", Algorithm::snaked_name()));

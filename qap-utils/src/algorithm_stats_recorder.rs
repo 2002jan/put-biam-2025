@@ -7,7 +7,9 @@ pub struct AlgorithmStatsRecorder {
     best_run: Option<AlgorithmRunStatsRecorder>,
     worst_run: Option<AlgorithmRunStatsRecorder>,
     optimum: i32,
-    pub avg_runtime: Option<u128>
+    pub avg_runtime: Option<u128>,
+    pub similarities_best: Option<LinkedList<(i32, i32)>>,
+    pub similarities_avg: Option<LinkedList<(i32, f32)>>
 }
 
 #[derive(Serialize, Clone)]
@@ -26,7 +28,9 @@ impl AlgorithmStatsRecorder {
             best_run: None,
             worst_run: None,
             optimum,
-            avg_runtime: None
+            avg_runtime: None,
+            similarities_best: None,
+            similarities_avg: None,
         }
     }
 

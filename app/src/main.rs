@@ -39,9 +39,9 @@ fn main() {
         }
     };
 
-    test_qap_algorithm::<LocalSearch<GreedyLocalSearch, RandomStartingSolution>>(&problem, &best_solution, &output_path, true);
-    test_qap_algorithm::<LocalSearch<SteepestLocalSearch, RandomStartingSolution>>(&problem, &best_solution, &output_path, true);
-    test_qap_algorithm::<RandomWalk<RandomStartingSolution>>(&problem, &best_solution, &output_path, true);
-    test_qap_algorithm::<RandomSearch>(&problem, &best_solution, &output_path, true);
-    test_qap_algorithm::<GreedyConstructionHeuristic>(&problem, &best_solution, &output_path, true);
+    test_qap_algorithm::<LocalSearch<GreedyLocalSearch, RandomStartingSolution>>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
+    test_qap_algorithm::<LocalSearch<SteepestLocalSearch, RandomStartingSolution>>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
+    test_qap_algorithm::<RandomWalk<RandomStartingSolution>>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
+    test_qap_algorithm::<RandomSearch>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
+    test_qap_algorithm::<GreedyConstructionHeuristic>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
 }
