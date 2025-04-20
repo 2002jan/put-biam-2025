@@ -1,11 +1,14 @@
-use std::collections::{BTreeMap, HashMap};
+use crate::local_search::neighbourhoods::{LocalSearchNeighbourhood, Move};
+use crate::local_search::search_types::tabu_search::tabu_list::TabuList;
+use crate::local_search::search_types::LocalSearchType;
 use qap_utils::algorithm_stats_recorder::AlgorithmRunStatsRecorder;
 use qap_utils::evaluate_solution::evaluate_solution;
 use qap_utils::problem::QapProblem;
-use crate::local_search::neighbourhoods::{LocalSearchNeighbourhood, Move};
-use crate::local_search::search_types::LocalSearchType;
+use std::collections::BTreeMap;
 
-const MAX_NO_IMPROVEMENT: u32 = 10;
+pub mod tabu_list;
+
+const MAX_NO_IMPROVEMENT: u32 = 100;
 
 #[derive(Copy, Clone, Eq, Hash, PartialEq)]
 struct CandidateTabuMove {
@@ -13,14 +16,15 @@ struct CandidateTabuMove {
     delta: i32,
 }
 
-pub struct TabuSearch {
+pub struct TabuSearch<TL: TabuList> {
     current_start: usize,
     next_start: usize,
     next_target: usize,
     size: usize,
+    list: TL,
 }
 
-impl TabuSearch {
+impl<TL: TabuList> TabuSearch<TL> {
     fn get_candidate_moves(&mut self, current_solution: &Vec<usize>, problem: &QapProblem, mut recorder: &mut Option<&mut AlgorithmRunStatsRecorder>) -> BTreeMap<i32, CandidateTabuMove> {
         let mut moves = BTreeMap::new();
 
@@ -43,13 +47,14 @@ impl TabuSearch {
     }
 }
 
-impl LocalSearchType for TabuSearch {
+impl<TL: TabuList> LocalSearchType for TabuSearch<TL> {
     fn new(problem: &QapProblem) -> Self {
         TabuSearch {
             current_start: 0,
             next_start: 0,
             next_target: 0,
             size: problem.size,
+            list: TL::new((problem.size / 4) as u32),
         }
     }
 
@@ -67,10 +72,8 @@ impl LocalSearchType for TabuSearch {
 
         let mut iteration: u32 = 0;
         let mut no_improvement_count: u32 = 0;
-        let mut tabu_list: HashMap<Move, u32> = HashMap::new();
 
         let k = problem.size / 10;
-        let tabu_tenure: u32 = (problem.size / 4) as u32;
 
         let mut tabu_search_iterator = Self::new(problem);
 
@@ -93,13 +96,13 @@ impl LocalSearchType for TabuSearch {
 
             for mov in elite_candidates {
                 let mov_delta = mov.delta;
-                let allowed = if tabu_list.contains_key(&mov.mov) && iteration < tabu_list[&mov.mov] {
+                let allowed = if tabu_search_iterator.list.is_move_tabu(&mov.mov, &current_solution, iteration) {
                     current_solution_cost + mov_delta < best_solutions_cost
                 } else {
                     true
                 };
 
-                if allowed && best_move_delta > mov_delta{
+                if allowed && best_move_delta > mov_delta {
                     best_move = Some(mov);
                     best_move_delta = mov_delta;
                 }
@@ -109,7 +112,9 @@ impl LocalSearchType for TabuSearch {
                 LocalSearchNeighbourhood::apply_move(&candidate_mov.mov, &mut current_solution);
                 current_solution_cost += candidate_mov.delta;
 
-                tabu_list.insert(candidate_mov.mov, iteration + tabu_tenure);
+                tabu_search_iterator.list.finish_iteration();
+                tabu_search_iterator.list.add_to_memory(&candidate_mov.mov, &current_solution, iteration);
+
 
                 if let Some(rec) = &mut recorder {
                     rec.record_iteration(current_solution_cost);
@@ -124,7 +129,6 @@ impl LocalSearchType for TabuSearch {
             } else {
                 break;
             }
-
         }
 
         best_solution
@@ -161,10 +165,10 @@ impl LocalSearchType for TabuSearch {
     }
 
     fn name() -> String {
-        String::from("Tabu search")
+        String::from("Tabu search with ") + TL::name().as_str()
     }
 
     fn snaked_name() -> String {
-        String::from("tabu_search")
+        String::from("tabu_search_with") + TL::snaked_name().as_str()
     }
 }
