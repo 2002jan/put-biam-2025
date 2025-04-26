@@ -15,7 +15,7 @@ pub fn test_qap_algorithm<Algorithm: TspAlgorithm>(problem: &QapProblem, optimum
     let mut min_solution = vec![0];
     let mut max_cost = 0;
     let mut _max_solution = vec![0];
-    let mut aggregated_cost = 0;
+    let mut aggregated_cost: i64 = 0;
 
     let mut all_solutions: LinkedList<Vec<usize>>= LinkedList::new();
     let start = Instant::now();
@@ -49,14 +49,14 @@ pub fn test_qap_algorithm<Algorithm: TspAlgorithm>(problem: &QapProblem, optimum
             _max_solution = solution.clone();
         }
 
-        aggregated_cost += cost;
+        aggregated_cost += cost as i64;
 
         all_solutions.push_back(solution);
     }
 
     let duration = start.elapsed();
 
-    let aggregated_cost = aggregated_cost as f32 / RUNS as f32;
+    let aggregated_cost = aggregated_cost as f64 / RUNS as f64;
     let aggregated_cost = aggregated_cost.round() as i32;
 
     let duration_micros = duration.as_micros();

@@ -8,7 +8,7 @@ use std::collections::BTreeMap;
 
 pub mod tabu_list;
 
-const MAX_NO_IMPROVEMENT: u32 = 100;
+// const MAX_NO_IMPROVEMENT: u32 = 100;
 
 #[derive(Copy, Clone, Eq, Hash, PartialEq)]
 struct CandidateTabuMove {
@@ -16,7 +16,7 @@ struct CandidateTabuMove {
     delta: i32,
 }
 
-pub struct TabuSearch<TL: TabuList> {
+pub struct TabuSearch<TL: TabuList, const MAX_NO_IMPROVEMENT: u32> {
     current_start: usize,
     next_start: usize,
     next_target: usize,
@@ -24,7 +24,7 @@ pub struct TabuSearch<TL: TabuList> {
     list: TL,
 }
 
-impl<TL: TabuList> TabuSearch<TL> {
+impl<TL: TabuList, const MAX_NO_IMPROVEMENT: u32> TabuSearch<TL, MAX_NO_IMPROVEMENT> {
     fn get_candidate_moves(&mut self, current_solution: &Vec<usize>, problem: &QapProblem, mut recorder: &mut Option<&mut AlgorithmRunStatsRecorder>) -> BTreeMap<i32, CandidateTabuMove> {
         let mut moves = BTreeMap::new();
 
@@ -47,7 +47,7 @@ impl<TL: TabuList> TabuSearch<TL> {
     }
 }
 
-impl<TL: TabuList> LocalSearchType for TabuSearch<TL> {
+impl<TL: TabuList, const MAX_NO_IMPROVEMENT: u32> LocalSearchType for TabuSearch<TL, MAX_NO_IMPROVEMENT> {
     fn new(problem: &QapProblem) -> Self {
         TabuSearch {
             current_start: 0,

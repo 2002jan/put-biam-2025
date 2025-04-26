@@ -14,9 +14,10 @@ use qap_algos::local_search::starting_solution::random_starting_solution::Random
 use qap_algos::random_algos::random_search::RandomSearch;
 use qap_algos::random_algos::random_walk::RandomWalk;
 use qap_algos::test_algorithm::test_qap_algorithm;
+use qap_algos::test_tabu_hyperparams::test_tabu_hyperparams;
 use qap_utils::problem_loader::{load_from_file, load_optimal_solution};
 use qap_utils::Solution;
-use run_utils::args::Args;
+use run_utils::args::{Args, Job};
 
 fn main() {
     let args = Args::build();
@@ -46,13 +47,20 @@ fn main() {
         }
     };
 
-    test_qap_algorithm::<LocalSearch<GreedyLocalSearch, RandomStartingSolution>>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
-    test_qap_algorithm::<LocalSearch<SteepestLocalSearch, RandomStartingSolution>>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
-    test_qap_algorithm::<RandomWalk<RandomStartingSolution>>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
-    test_qap_algorithm::<RandomSearch>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
-    test_qap_algorithm::<GreedyConstructionHeuristic>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
-    test_qap_algorithm::<LocalSearch<TabuSearch<SolutionTabuList<ShortTermMemory<Solution>>>, RandomStartingSolution>>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
-    test_qap_algorithm::<LocalSearch<TabuSearch<SolutionTabuList<LongTermMemory<Solution>>>, RandomStartingSolution>>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
-    test_qap_algorithm::<LocalSearch<TabuSearch<MoveTabuList<ShortTermMemory<Move>>>, RandomStartingSolution>>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
-    test_qap_algorithm::<LocalSearch<TabuSearch<MoveTabuList<LongTermMemory<Move>>>, RandomStartingSolution>>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
+    match &args.job {
+        Job::Main => {
+            test_qap_algorithm::<LocalSearch<GreedyLocalSearch, RandomStartingSolution>>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
+            test_qap_algorithm::<LocalSearch<SteepestLocalSearch, RandomStartingSolution>>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
+            test_qap_algorithm::<RandomWalk<RandomStartingSolution>>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
+            test_qap_algorithm::<RandomSearch>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
+            test_qap_algorithm::<GreedyConstructionHeuristic>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
+            test_qap_algorithm::<LocalSearch<TabuSearch<SolutionTabuList<ShortTermMemory<Solution>>, 100>, RandomStartingSolution>>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
+            test_qap_algorithm::<LocalSearch<TabuSearch<SolutionTabuList<LongTermMemory<Solution>>, 100>, RandomStartingSolution>>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
+            test_qap_algorithm::<LocalSearch<TabuSearch<MoveTabuList<ShortTermMemory<Move>>, 100>, RandomStartingSolution>>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
+            test_qap_algorithm::<LocalSearch<TabuSearch<MoveTabuList<LongTermMemory<Move>>, 100>, RandomStartingSolution>>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
+        }
+        Job::TestTabuHyperParams => {
+            test_tabu_hyperparams(&problem, &best_solution)
+        }
+    }
 }
