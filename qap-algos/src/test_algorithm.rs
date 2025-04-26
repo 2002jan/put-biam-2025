@@ -30,7 +30,10 @@ pub fn test_qap_algorithm<Algorithm: TspAlgorithm>(problem: &QapProblem, optimum
     for _ in 0..RUNS {
         let solution = if let Some(recorder) = &mut recorder {
             let mut run_recorder = AlgorithmRunStatsRecorder::new();
+            let algo_start = start.elapsed();
             let solution = Algorithm::run(problem, Some(&mut run_recorder));
+            let algo_end = start.elapsed();
+            run_recorder.algorithm_run_time = algo_end.as_micros() - algo_start.as_micros();
             recorder.add_run(run_recorder);
             solution
         } else {

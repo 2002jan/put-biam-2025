@@ -33,6 +33,7 @@ pub fn load_from_file(path: &String) -> QapProblem {
         distance_matrix,
         flow_matrix,
         size: problem_size,
+        avg_ls_runtime: 0
     }
 }
 
