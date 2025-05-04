@@ -75,7 +75,7 @@ impl LocalSearchType for SimulatedAnnealing {
         let p = 10;
         let mut iterations_since_improvement = 0;
 
-        while iterations_since_improvement < p * markov_length && temperature > 1e-3 {
+        while iterations_since_improvement < p * markov_length && temperature > 1e-2 {
             for _ in 0..markov_length {
                 let i = rng.random_range(0..size);
                 let j = rng.random_range(0..size);
