@@ -2,6 +2,7 @@ pub mod local_search;
 pub mod test_algorithm;
 pub mod random_algos;
 pub mod heuristics;
+pub mod test_tabu_hyperparams;
 
 use qap_utils::algorithm_stats_recorder::AlgorithmRunStatsRecorder;
 use qap_utils::problem::QapProblem;

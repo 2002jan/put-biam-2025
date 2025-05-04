@@ -1,5 +1,6 @@
 use qap_utils::problem::QapProblem;
 
+#[derive(Copy, Clone, Eq, PartialEq, Hash)]
 pub struct Move {
     pub p1: usize,
     pub p2: usize,

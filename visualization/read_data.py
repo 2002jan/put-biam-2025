@@ -6,12 +6,13 @@ import matplotlib.pyplot as plt
 
 
 class AlgorithmRunStats:
-    def __init__(self, iterations: int, scores: list[int], final_score: int, evaluations: int, partial_evaluations: int):
+    def __init__(self, iterations: int, scores: list[int], final_score: int, evaluations: int, partial_evaluations: int, algorithm_run_time: int):
         self.iterations = iterations
         self.scores = scores
         self.final_score = final_score
         self.evaluations = evaluations
         self.partial_evaluations = partial_evaluations
+        self.algorithm_run_time = algorithm_run_time
 
 class AlgorithmStats:
     def __init__(self, runs: list[dict], best_run: dict, worst_run: dict, optimum: int, avg_runtime: int, similarities_best: list, similarities_avg: list):

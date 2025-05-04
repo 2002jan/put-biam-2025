@@ -1,0 +1,168 @@
+Scores!
+Algo: Long term move
+No improvement value: 10
+Min cost: 15088162(1.2079767)
+Max cost: 15270027(1.222537)
+Average cost: 15173959(1.2148458)
+
+Algo: Long term move
+No improvement value: 20
+Min cost: 15052998(1.2051615)
+Max cost: 15270729(1.2225933)
+Average cost: 15163122(1.2139782)
+
+Algo: Long term move
+No improvement value: 50
+Min cost: 12490441(1)
+Max cost: 15324805(1.2269226)
+Average cost: 15147908(1.2127601)
+
+Algo: Long term move
+No improvement value: 100
+Min cost: 15058305(1.2055863)
+Max cost: 15261823(1.2218802)
+Average cost: 15164324(1.2140744)
+
+Algo: Long term move
+No improvement value: 150
+Min cost: 15059281(1.2056645)
+Max cost: 15255250(1.221354)
+Average cost: 15158812(1.2136331)
+
+Algo: Long term move
+No improvement value: 200
+Min cost: 15076265(1.2070242)
+Max cost: 15262931(1.2219689)
+Average cost: 15162772(1.21395)
+
+Algo: Long term move
+No improvement value: 300
+Min cost: 15042077(1.204287)
+Max cost: 15278747(1.2232352)
+Average cost: 15166116(1.2142178)
+
+Algo: Long term solution
+No improvement value: 10
+Min cost: 15110182(1.2097397)
+Max cost: 15298085(1.2247834)
+Average cost: 15207514(1.2175322)
+
+Algo: Long term solution
+No improvement value: 20
+Min cost: 15100140(1.2089357)
+Max cost: 15312586(1.2259444)
+Average cost: 15201870(1.2170804)
+
+Algo: Long term solution
+No improvement value: 50
+Min cost: 15090897(1.2081957)
+Max cost: 15313146(1.2259892)
+Average cost: 15202309(1.2171155)
+
+Algo: Long term solution
+No improvement value: 100
+Min cost: 15113387(1.2099962)
+Max cost: 15322588(1.2267451)
+Average cost: 15208831(1.2176377)
+
+Algo: Long term solution
+No improvement value: 150
+Min cost: 15075060(1.2069278)
+Max cost: 15335858(1.2278075)
+Average cost: 15201860(1.2170795)
+
+Algo: Long term solution
+No improvement value: 200
+Min cost: 15105201(1.2093409)
+Max cost: 15300983(1.2250154)
+Average cost: 15205148(1.2173427)
+
+Algo: Long term solution
+No improvement value: 300
+Min cost: 15111429(1.2098395)
+Max cost: 15322821(1.2267638)
+Average cost: 15203032(1.2171733)
+
+Algo: Short term move
+No improvement value: 10
+Min cost: 15073950(1.2068388)
+Max cost: 15243449(1.2204092)
+Average cost: 15163386(1.2139993)
+
+Algo: Short term move
+No improvement value: 20
+Min cost: 15052618(1.205131)
+Max cost: 15206367(1.2174404)
+Average cost: 15137421(1.2119205)
+
+Algo: Short term move
+No improvement value: 50
+Min cost: 15039640(1.204092)
+Max cost: 15182267(1.2155108)
+Average cost: 15107256(1.2095054)
+
+Algo: Short term move
+No improvement value: 100
+Min cost: 12490441(1)
+Max cost: 15177840(1.2151564)
+Average cost: 15069579(1.206489)
+
+Algo: Short term move
+No improvement value: 150
+Min cost: 12490441(1)
+Max cost: 15121698(1.2106616)
+Average cost: 15040955(1.2041973)
+
+Algo: Short term move
+No improvement value: 200
+Min cost: 12490441(1)
+Max cost: 15115621(1.2101752)
+Average cost: 15029446(1.2032758)
+
+Algo: Short term move
+No improvement value: 300
+Min cost: 12490441(1)
+Max cost: 15099102(1.2088526)
+Average cost: 14969560(1.1984813)
+
+Algo: Short term solution
+No improvement value: 10
+Min cost: 15089615(1.208093)
+Max cost: 15253676(1.221228)
+Average cost: 15169366(1.214478)
+
+Algo: Short term solution
+No improvement value: 20
+Min cost: 15073528(1.2068051)
+Max cost: 15240834(1.2201998)
+Average cost: 15145798(1.2125912)
+
+Algo: Short term solution
+No improvement value: 50
+Min cost: 15021404(1.202632)
+Max cost: 15191127(1.2162203)
+Average cost: 15117429(1.2103199)
+
+Algo: Short term solution
+No improvement value: 100
+Min cost: 12490441(1)
+Max cost: 15187164(1.2159029)
+Average cost: 15080956(1.2073998)
+
+Algo: Short term solution
+No improvement value: 150
+Min cost: 15015140(1.2021304)
+Max cost: 15189961(1.2161269)
+Average cost: 15086097(1.2078114)
+
+Algo: Short term solution
+No improvement value: 200
+Min cost: 12490441(1)
+Max cost: 15156000(1.2134079)
+Average cost: 15067647(1.2063342)
+
+Algo: Short term solution
+No improvement value: 300
+Min cost: 12490441(1)
+Max cost: 15181787(1.2154725)
+Average cost: 15049959(1.2049181)

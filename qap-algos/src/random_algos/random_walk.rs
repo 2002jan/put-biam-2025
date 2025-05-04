@@ -14,7 +14,7 @@ pub struct RandomWalk<
     ss: PhantomData<SS>,
 }
 
-const TIME_LIMIT: u128 = 10;
+// const TIME_LIMIT: u128 = 10;
 
 fn generate_distinct_pair(n: usize) -> (usize, usize) {
     let mut rng = rand::rng();
@@ -47,7 +47,7 @@ impl<
         let mut best_score = current_score;
         let mut best_solution = current_solution.clone();
 
-        while start.elapsed().as_millis() < TIME_LIMIT {
+        while start.elapsed().as_micros() < problem.avg_ls_runtime {
             //     get two indices
             let (i, j) = generate_distinct_pair(problem.size);
             let mov = Move {

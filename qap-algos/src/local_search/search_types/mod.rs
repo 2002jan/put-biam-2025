@@ -1,5 +1,6 @@
 pub mod greedy;
 pub mod steepest;
+pub mod tabu_search;
 
 use qap_utils::algorithm_stats_recorder::AlgorithmRunStatsRecorder;
 use qap_utils::problem::QapProblem;
