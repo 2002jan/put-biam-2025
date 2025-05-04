@@ -9,9 +9,7 @@ use crate::local_search::search_types::LocalSearchType;
 
 pub struct SimulatedAnnealing {
     rng: ThreadRng,
-    size: usize,
     start_order: Vec<usize>,
-    targets: Vec<usize>,
     current_start: usize,
     next_start: usize,
     next_target: usize,
@@ -25,9 +23,7 @@ impl LocalSearchType for SimulatedAnnealing {
 
         SimulatedAnnealing {
             rng: thread_rng,
-            size,
             start_order: (0..size).collect(),
-            targets: (0..size).collect(),
             current_start: 0,
             next_start: 0,
             next_target: 0,
@@ -49,8 +45,6 @@ impl LocalSearchType for SimulatedAnnealing {
             rec.record_iteration(current_score);
             rec.record_evaluation();
         }
-
-        let mut neighborhood = Self::new(problem);
 
         // Estimate starting temperature (95% acceptance of bad moves)
         let mut deltas: Vec<f64> = Vec::new();
