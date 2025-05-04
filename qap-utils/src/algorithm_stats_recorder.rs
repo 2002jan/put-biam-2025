@@ -19,6 +19,7 @@ pub struct AlgorithmRunStatsRecorder {
     evaluations: i32,
     partial_evaluations: i32,
     final_score: i32,
+    pub algorithm_run_time: u128
 }
 
 impl AlgorithmStatsRecorder {
@@ -67,6 +68,7 @@ impl AlgorithmRunStatsRecorder {
             evaluations: 0,
             partial_evaluations: 0,
             final_score: i32::MAX,
+            algorithm_run_time: 0,
         }
     }
 

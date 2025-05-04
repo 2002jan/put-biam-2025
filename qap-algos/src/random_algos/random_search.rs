@@ -7,7 +7,7 @@ use crate::TspAlgorithm;
 
 pub struct RandomSearch;
 
-const TIME_LIMIT: u128 = 10;
+// const TIME_LIMIT: u128 = 10;
 
 impl TspAlgorithm for RandomSearch {
     fn run(problem: &QapProblem, mut recorder: Option<&mut AlgorithmRunStatsRecorder>) -> Vec<usize> {
@@ -24,7 +24,7 @@ impl TspAlgorithm for RandomSearch {
         let mut best_score = current_score;
         let mut best_solution = current_solution.clone();
 
-        while start.elapsed().as_millis() < TIME_LIMIT {
+        while start.elapsed().as_micros() < problem.avg_ls_runtime {
             current_solution.shuffle(&mut rand::rng());
 
             current_score = evaluate_solution(&current_solution, problem);
