@@ -4,6 +4,7 @@ use qap_algos::heuristics::greedy_construction_heuristic::GreedyConstructionHeur
 use qap_algos::local_search::local_search::LocalSearch;
 use qap_algos::local_search::search_types::greedy::GreedyLocalSearch;
 use qap_algos::local_search::search_types::steepest::SteepestLocalSearch;
+use qap_algos::local_search::simulated_annealing::simulated_annealing::SimulatedAnnealing;
 use qap_algos::local_search::starting_solution::random_starting_solution::RandomStartingSolution;
 use qap_algos::random_algos::random_search::RandomSearch;
 use qap_algos::random_algos::random_walk::RandomWalk;
@@ -44,4 +45,5 @@ fn main() {
     test_qap_algorithm::<RandomWalk<RandomStartingSolution>>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
     test_qap_algorithm::<RandomSearch>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
     test_qap_algorithm::<GreedyConstructionHeuristic>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
+    test_qap_algorithm::<LocalSearch<SimulatedAnnealing, RandomStartingSolution>>(&problem, &best_solution, &output_path, true, args.calculate_similarity);
 }
